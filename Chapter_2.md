@@ -2,17 +2,17 @@
 
 
 
-## 经验误差与过度拟合
+## 1. 经验误差与过度拟合
 
-- error rate 错误率: E = a/m (a：样本分类错误数， m：总样本数量)
-- accuracy 精度：1-a/m
+- error rate 错误率: E = $\frac{a}{m}$ (a：样本分类错误数， m：总样本数量)
+- accuracy 精度：1-$\frac{a}{m}$
 - error 误差：预测输入和真实输入之间的差异
 - training/empirical error 训练误差：在训练集上的误差
 - generalization error 泛化误差：在新样本上的误差
 - overfitting 过拟合：把训练集的一些特征误认为是整体样本都具有的特征，导致泛化能力下降
 - underfitting 欠拟合：训练集样本的特征没有学习好
 
-## 评估方法
+## 2. 评估方法
 
 对数据集进行拆分的方法有
 
@@ -21,9 +21,56 @@
 - leave-one-out 留一法(LOO) ：是cross validation 的特例，即每个子集只有一个样本。
 - booststrapping 自助法：不常用
 
-## 性能度量
+## 3. 性能度量
 
-## 比较检验
+####  3.1 预测任务：
 
-## 偏差与方差
+预测任务评估学习器f的性能，是把预测结果f(x) 与x对应的真实结果进行比较。
+
+- 回归任务最常用的性能度量是 “均方误差(mean squared error)”
+
+  ***E(f;D) = $\frac{1}{m}\quad\sum_{i=1}^{m}{(f(x_i)-y_i)^2}$***
+
+- 而一般情况下，对于数据分布D 和概率密度函数p(x),均方误差可以描述为：
+
+  ***E(f;D) = $\int^D_x{(f(x)-y)^2p(x)dx}$***
+
+
+#### 3.2 分类任务：
+
+主要考核错误率和精度，对于样例集D：
+
+- 错误率定义为：
+  ***E(f;D) = $\frac{1}{m}\sum_{i=1}^{m}\prod{(f(x_i)\neq{y_i})}$***
+- 精度定义为：
+  ***ACC(f;D) = $\frac{1}{m}\sum_{i=1}^{m}\prod{(f(x_i)={y_i})}$ = 1 - E(f;D)***
+- 一般情况下，对于数据分布D 和概率密度函数p(x)，错误率和精度可分别描述为:
+  ***E(f;D) = $\int^D_x\prod{(f(x)\neq{y})p(x)dx}$***
+  ***ACC(f;D) = $\int^D_x\prod{(f(x)={y})p(x)dx}$***
+
+####3.3 其他任务：
+
+- 查准率(precision)  = $\frac{TP}{TP+FP}$
+- 查全率(recall)= $\frac{TP}{TP+FN}$
+- P-R曲线：以查准率P为横轴，查全率R为纵轴的图。
+
+| 真实情况 | 预测正例 | 预测反例 |
+| ---- | ---- | ---- |
+| 正例   | TP   | FN   |
+| 反例   | FP   | FN   |
+
+- ROC: 受试者工作特征(Receiver Operating Characteristic)
+  - 横轴：假阳性TPR = $\frac{TP}{TP+FN}$
+  - 纵轴：FPR = $\frac{FP}{TN+FP}$
+  - 绘制方法：设前一个标记坐标为(x,y), 当前若为真正例，则对应坐标为(x,y+$\frac{1}{m+}$); 若为假正例，则对应坐标为(x+$\frac{1}{m}-$,y)，然后用线段链接相邻的点即可。
+- AUC：Area Under Curve 
+  - 量化ROC的曲线质量，面积越大，则效果越好。
+
+
+
+## 4. 比较检验
+
+统计假设检验为我们进行学习器性能比较提供了重要的依据，因为不能直接拿性能度量的值进行大小比较。
+
+## 5. 偏差与方差
 
